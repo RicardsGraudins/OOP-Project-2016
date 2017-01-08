@@ -212,7 +212,7 @@ public class Client implements ClientInterface {
 	
 	//download a file available on the server
 	public void downloadFile() {
-		String fileOutput = "C:\\testout.txt";
+		String fileOutput = "downloads\testout.txt";
 		byte[] aByte = new byte[1];
 		int bytesRead;
 		

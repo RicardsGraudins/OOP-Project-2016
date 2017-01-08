@@ -56,7 +56,8 @@ class ClientServiceThread extends Thread {
 		  
 		  try {
 			  //location that stores files
-			  f = new File("c:/myfiles");
+			  //f = new File("c:/myfiles");
+			  f = new File("downloads");
 			  
 			  //returns pathnames for files
 			  paths = f.listFiles();
