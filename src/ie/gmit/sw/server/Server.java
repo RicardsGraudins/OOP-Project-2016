@@ -17,5 +17,5 @@ public class Server {
 			 cliThread.start();
 		 }//while
 	 }//main
-}//WebServer
+}//Server
 

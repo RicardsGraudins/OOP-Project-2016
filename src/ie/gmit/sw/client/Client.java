@@ -379,5 +379,24 @@ public class Client implements ClientInterface {
 		}//while
 		console.close();
 	}//main
-}//WebClient
+}//Client
+
+/* Had a little more than 24 hours to do this project with an alnighter, so I apologize
+ * the project isn't of a higher quality as I had to rush through it to scavenge as many marks
+ * as I can. If I had more time I would have created a blockingQueue that takes in a request thread
+ * of listing files, download file, connect and quit, e.g
+ * 
+ * public class addRequest implements Runnable {
+ * 		private BlockingQueue<Request> q;
+ * 		
+ * 		public addRequest(BlockingQueue<Request> q) {
+ * 		this.q = q;
+ * 
+ * 		q.put(request);
+ *		
+ *		//then use q.take if the blockingQueue gets full or finishes executing that particular request
+ *		}
+ * }
+ * 
+*/
 
