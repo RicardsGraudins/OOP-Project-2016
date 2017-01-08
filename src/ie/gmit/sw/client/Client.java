@@ -92,13 +92,13 @@ public class Client implements ClientInterface {
 			out = new ObjectOutputStream(requestSocket.getOutputStream());
 			out.flush();
 			in = new ObjectInputStream(requestSocket.getInputStream());
-			//3: Communicating with the server
+			//3: communicating with the server
 			
 			try {
 				
 				message = (String)in.readObject();
 				System.out.println(message);
-				//while loop here 1-4 recieve info
+				//while loop recieve data
 				menu();
 				int choice = stdin.nextInt();
 				sendInt(choice);
@@ -124,11 +124,11 @@ public class Client implements ClientInterface {
 						choice = stdin.nextInt();
 						sendInt(choice);
 						break;
-					case 4:
-						System.out.println("Ending connection...");
-						break;
 					default:
 						System.out.println("Invalid");
+						menu();
+						choice = stdin.nextInt();
+						sendInt(choice);
 						break;
 					}//switch
 				}//while
@@ -146,7 +146,7 @@ public class Client implements ClientInterface {
 			ioException.printStackTrace();
 		}
 		finally{
-			//4: Closing connection
+			//4: closing connection
 			try{
 				in.close();
 				out.close();
@@ -159,6 +159,7 @@ public class Client implements ClientInterface {
 		}//finally
 	}//run
 	
+	//send string to server
 	public void sendMessage(String msg) {
 		try{
 			out.writeObject(msg);
@@ -170,6 +171,7 @@ public class Client implements ClientInterface {
 		}//catch
 	}//sendMessage
 	
+	//send int to server
 	public void sendInt(int num) {
 		try {
 			out.writeObject(num);
@@ -179,7 +181,8 @@ public class Client implements ClientInterface {
 		}//catch
 	}//sendInt
 	
-	static void menu(){
+	//a quick menu to avoid redundant code
+	public static void menu(){
 		System.out.println("\n1. Connect to Server");
 		System.out.println("2. Print File Listing");
 		System.out.println("3. Download File");
@@ -188,26 +191,26 @@ public class Client implements ClientInterface {
 		System.out.print("\nType Option [1-4]> ");
 	}//menu
 	
+	//display a list of files available to download from the server
 	public void listFiles() {
 		int numOfFiles = 3;
 		
-
 			try {
 				System.out.println("\n  Files:");
 				System.out.println("===========");
 				for (int i = 0; i < numOfFiles; i++) {
 					File fileContents = (File)in.readObject();
 					System.out.println(fileContents);
-				}
+				}//for
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-	}
+			}//catch
+	}//listFiles
 	
+	
+	//download a file available on the server
 	public void downloadFile() {
 		String fileOutput = "C:\\testout.txt";
 		byte[] aByte = new byte[1];
@@ -227,7 +230,7 @@ public class Client implements ClientInterface {
 			
 		} catch (IOException ex){
 			
-		}
+		}//catch
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		
@@ -252,9 +255,9 @@ public class Client implements ClientInterface {
 				clientSocket.close();
 			} catch (IOException ex) {
 				
-			}
-		}
-	}
+			}//catch
+		}//if
+	}//downloadFile
 	
 	/*
 	void downloadFile() {
@@ -269,7 +272,7 @@ public class Client implements ClientInterface {
 			
 		} catch (IOException ex){
 			
-		}
+		}//catch
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		
@@ -293,9 +296,9 @@ public class Client implements ClientInterface {
 				//bos.close();
 			} catch (IOException ex) {
 				
-			}
-		}
-	}
+			}//catch
+		}//if
+	}//downloadFile
 	*/
 	
 	/*
@@ -337,10 +340,11 @@ public class Client implements ClientInterface {
 	       
 	       //fos.close();
 	       bos.close();
-	}
+	}//downloadFile
 	*/
  	
- 	
+ 	//Starting point for client, display menu into while loop until connect to server is
+	//selected and client.run starts, multiple clients can connect to server simultaneously
 	public static void main(String[] args) {
 		Client client = new Client();
 		int choice;
@@ -365,10 +369,6 @@ public class Client implements ClientInterface {
 				System.out.println("\nCannot download file without server connection.");
 				System.out.print("Type Option [1-4]> ");
 				choice = console.nextInt();
-				break;
-			case 4:
-				System.out.println("Exiting..");
-				choice = 4;
 				break;
 			default:
 				System.out.println("\nInvalid input");

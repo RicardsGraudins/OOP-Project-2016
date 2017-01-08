@@ -27,28 +27,29 @@ class ClientServiceThread extends Thread {
 	    clientID = i;
 	  }
 
+	  //send string to client
 	  public void sendMessage(String msg) {
 			try{
 				out.writeObject(msg);
 				out.flush();
-				//System.out.println("client> " + msg);
 			}
 			catch(IOException ioException){
 				ioException.printStackTrace();
-			}
-	  }
+			}//catch
+	  }//sendMessage
 	  
+	  //send file to client
 	  public void sendFileMessage(File msg) {
 			try{
 				out.writeObject(msg);
 				out.flush();
-				//System.out.println("client> " + msg);
-			}
+			}//try
 			catch(IOException ioException){
 				ioException.printStackTrace();
-			}
-	  }
+			}//catch
+	  }//sendFileMessage
 	  
+	//display a list of files available for download to the client
 	  public void listFiles() {
 		  File f = null;
 		  File[] paths;
@@ -63,12 +64,12 @@ class ClientServiceThread extends Thread {
 			  //print out pathnames
 			  for (File path:paths){
 				  sendFileMessage(path);
-			  }
+			  }//for
 			  
 		  } catch(Exception e) {
 			  e.printStackTrace();
-		  }
-	  }
+		  }//catch
+	  }//listFiles
 	  
 	  //reference http://stackoverflow.com/questions/4687615/how-to-achieve-transfer-file-between-client-and-server-using-java-socket
 	  //tried several approaches which work fine on their own but not quite for this project - empty file
@@ -87,7 +88,7 @@ class ClientServiceThread extends Thread {
 			e1.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		}
+		}//try
 		  
 		  
 		  try {
@@ -96,7 +97,7 @@ class ClientServiceThread extends Thread {
 			outToClient = new BufferedOutputStream(connectionSocket.getOutputStream());
 		  } catch (IOException e) {
 				
-		  }
+		  }//catch
 		  
 		  if (outToClient != null) {
 			  File myFile = new File(fileToSend);
@@ -108,7 +109,7 @@ class ClientServiceThread extends Thread {
 				  fis = new FileInputStream(myFile);
 			  } catch (FileNotFoundException ex) {
 					
-			  }
+			  }//catch
 			  BufferedInputStream bis = new BufferedInputStream(fis);
 			  
 			  try {
@@ -120,9 +121,9 @@ class ClientServiceThread extends Thread {
 	
 			  } catch (IOException ex) {
 				  // Do exception handling
-			  }
-		  }
-	  }
+			  }//catch
+		  }//if
+	  }//downloadFile
 	  
 	  /*
 	  public void downloadFile() {
@@ -133,7 +134,7 @@ class ClientServiceThread extends Thread {
 			outToClient = new BufferedOutputStream(clientSocket.getOutputStream());
 		  } catch (IOException e) {
 				
-		  }
+		  }//catch
 		  
 		  if (outToClient != null) {
 			  File myFile = new File(fileToSend);
@@ -145,7 +146,7 @@ class ClientServiceThread extends Thread {
 				  fis = new FileInputStream(myFile);
 			  } catch (FileNotFoundException ex) {
 					
-			  }
+			  }//catch
 			  BufferedInputStream bis = new BufferedInputStream(fis);
 			  
 			  try {
@@ -156,9 +157,9 @@ class ClientServiceThread extends Thread {
 	
 			  } catch (IOException ex) {
 				  // Do exception handling
-			  }
-		  }
-	  }
+			  }//catch
+		  }//if
+	  }//downloadFile
 	  */
 	  
 	  /*
@@ -182,7 +183,7 @@ class ClientServiceThread extends Thread {
 		  os.flush();
 		  System.out.println("File Sent");
 		  bis.close();
-	  }
+	  }//downloadFile
 	  */
 	  
 	  //testing if correct information added to logfile by deserializing logs.txt
@@ -197,13 +198,14 @@ class ClientServiceThread extends Thread {
 			//print out contents
 			for (DateObject h : output){
 				System.out.println(h.toString());
-			}
+			}//for
 			
 			ois.close();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-		}
-	  }
+		}//catch
+	  }//outputFileContent
+	  
 	  public void run() {
 	    //System.out.println("Accepted Client : ID - " + clientID + " : Address - "
 	    //    + clientSocket.getInetAddress().getHostName());
@@ -235,7 +237,7 @@ class ClientServiceThread extends Thread {
 				switch (choice){
 				case 1:
 					//do nothing, client already connected to server
-					outputFileContents(); //checking if outPutFileContents works
+					//outputFileContents(); //checking if outPutFileContents works
 					choice = (int)in.readObject();
 					break;
 				case 2:
@@ -259,7 +261,6 @@ class ClientServiceThread extends Thread {
 					choice = (int)in.readObject();
 					break;
 				default:
-					System.out.println("Invalid");
 					choice = (int)in.readObject();
 					break;
 				}//switch
@@ -282,6 +283,6 @@ class ClientServiceThread extends Thread {
 			        + clientSocket.getInetAddress().getHostName());
 	    } catch (Exception e) {
 	      e.printStackTrace();
-	    }
-	}
-}
+	    }//catch
+	}//run
+}//ClientServiceThread
